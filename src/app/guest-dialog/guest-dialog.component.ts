@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Gender, Guest } from '../app.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 
 @Component({
@@ -22,17 +22,17 @@ export class GuestDialogComponent implements OnInit {
   // gender: Gender;
   // partnerId: string;
 
-  guestForm = new FormGroup({
-    name: new FormControl(''),
-    gender: new FormControl(''),
-    partner: new FormControl(''),
+  guestForm = new UntypedFormGroup({
+    name: new UntypedFormControl(''),
+    gender: new UntypedFormControl(''),
+    partner: new UntypedFormControl(''),
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Guest[]) {
-    this.guestForm = new FormGroup({
-      name: new FormControl(''),
-      gender: new FormControl(''),
-      partner: new FormControl(''),
+    this.guestForm = new UntypedFormGroup({
+      name: new UntypedFormControl(''),
+      gender: new UntypedFormControl(''),
+      partner: new UntypedFormControl(''),
     });
   }
 
