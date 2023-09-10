@@ -10,7 +10,7 @@ import { AppMaterialModule } from './app.material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { GuestDialogComponent } from './guest-dialog/guest-dialog.component';
-import {MatChipsModule} from '@angular/material/chips';
+import {MatLegacyChipsModule as MatChipsModule} from '@angular/material/legacy-chips';
 
 
 @NgModule({
