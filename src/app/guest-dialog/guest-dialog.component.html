@@ -1,0 +1,61 @@
+<form [formGroup]="guestForm">
+    <h1 mat-dialog-title>{{titel}}</h1>
+    
+    <mat-dialog-content>
+
+        <mat-form-field class="input" appearance="outline">
+            <mat-label>Navn</mat-label>
+            <input type="text" placeholder="Indtast navn.." formControlName="name" maxlength="2000" matInput>
+        </mat-form-field>
+        
+        <!-- <mat-form-field class="form-field-top-padding" appearance="outline">
+            <mat-label>Navn</mat-label>
+            <input type="text" placeholder="Indtast navn.." formControlName="name" maxlength="2000" matInput>
+        </mat-form-field> -->
+
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" formControlName="gender">
+            <mat-radio-button value="1" class="option">Male</mat-radio-button>
+            <mat-radio-button value="2" class="option">Female</mat-radio-button>
+            <mat-radio-button value="3" class="option">Other</mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Sidemakker</mat-label>
+            <input type="text"
+                   placeholder="Find gæst"
+                   matInput
+                   formControlName="partner"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="guestSelected($event.option.value)">
+              <mat-option *ngFor="let g of guestList" [value]="g.name">{{g.name}}</mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="outline">
+            <mat-label>Action codes</mat-label>
+            <mat-chip-grid [disabled]="isReadonly" #chipGrid aria-label="Action code selection">
+              <mat-chip-row [disabled]="isReadonly" *ngFor="let g of chosenGuest" (removed)="onRemoveActionCode(g)">
+                {{g.name}}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            </mat-chip-grid>
+            <input placeholder="Tilføj sidemakker..." #actionCodeInput formControlName="partner"
+              [matChipInputFor]="chipGrid" [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="onAddActionCode($event)" maxlength="100" />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="chipSelected($event.option.value); actionCodeInput.value = ''">
+              <mat-option *ngFor="let acf of allActionCodeStatesFiltered" [value]="acf">
+                {{acf.code}} {{acf.description}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field> -->
+  
+
+        <!-- {{guestForm | json}} -->
+
+        <button mat-flat-button (click)="print()">Test print</button>
+
+    </mat-dialog-content>
+
+</form>
