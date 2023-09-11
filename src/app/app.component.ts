@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { GuestDialogComponent } from './guest-dialog/guest-dialog.component';
 
 
@@ -61,6 +61,12 @@ export class AppComponent {
       if (data) {
         this.guestList.push(data)
         //update list
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        console.log(data);
       }
     })
 

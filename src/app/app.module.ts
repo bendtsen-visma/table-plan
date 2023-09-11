@@ -10,8 +10,8 @@ import { AppMaterialModule } from './app.material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { GuestDialogComponent } from './guest-dialog/guest-dialog.component';
-import {MatLegacyChipsModule as MatChipsModule} from '@angular/material/legacy-chips';
 
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import {MatLegacyChipsModule as MatChipsModule} from '@angular/material/legacy-c
     FormsModule,
     DragDropModule,
     ReactiveFormsModule,
-    MatChipsModule
+    MatAutocompleteModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
