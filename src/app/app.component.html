@@ -1,32 +1,103 @@
 <mat-card class="card">
-  <mat-card-header class="margin-bottom">
-    <mat-card-title>Hvor mange borde?</mat-card-title>
-  </mat-card-header>
   
-  <mat-form-field class="form-field" appearance="outline">
-    <mat-label>Antal borde</mat-label>
-    <input matInput type="number" [(ngModel)]="tables">    
-  </mat-form-field>
-  
-  <mat-card-header class="margin-bottom">
-    <mat-card-title>Hvor mange pladser per bord?</mat-card-title>
-  </mat-card-header>
-  
-  <mat-form-field class="form-field" appearance="outline">
-    <mat-label>Antal pladser</mat-label>
-    <input matInput type="number" [(ngModel)]="seats">    
-  </mat-form-field>
+  <div class="row-2">
 
-  <div class="row">
-    <button mat-button (click)="generateLists()">Lav borde</button>
-    <button color="primary" mat-button (click)="addPerson()">Tilføj Gæst</button>
+    <div>
+      <mat-card-header class="margin-bottom">
+        <mat-card-title>Hvor mange borde?</mat-card-title>
+      </mat-card-header>
+      
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Antal borde</mat-label>
+        <input matInput type="number" [(ngModel)]="tables">    
+      </mat-form-field>
+      
+      <mat-card-header class="margin-bottom">
+        <mat-card-title>Hvor mange pladser per bord?</mat-card-title>
+      </mat-card-header>
+      
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Antal pladser</mat-label>
+        <input matInput type="number" [(ngModel)]="seats">    
+      </mat-form-field>
+    
+      <div class="row">
+        <button mat-button (click)="generateLists()">Lav borde</button>
+        <button color="primary" mat-button (click)="addPerson()">Tilføj Gæst</button>
+      </div>
+    </div>
+    
+    <div
+      cdkDropList
+      id="guest-list"
+      [cdkDropListData]="guestList"
+      [cdkDropListConnectedTo]="tableIds"
+      class="example-list"
+      (cdkDropListDropped)="drop($any($event))">
+      <div [ngClass]="itemGenderClass(person)" class="example-box" *ngFor="let person of guestList" cdkDrag>
+        <div class="left-margin">
+          <div><strong>{{person.name}}</strong></div>
+          <div>{{fixedPersonName(person)}}</div>
+        </div>
+          <button type="button" mat-icon-button (click)="removeGuest(person.id)" matTooltip="Remove guest">
+            <mat-icon>close</mat-icon>
+          </button>
+      </div>
+    </div>
+
   </div>
 
+</mat-card>
+
+<mat-card class="card">
 
   <div *ngIf="list" class="left-margin">
 
     <div *ngFor="let item of list; let i = index" class="example-container">
-      <h2>Bord {{i+1}}</h2>
+      <div class="row-no-margin margin-top">
+        <h2 class="margin-right">Bord {{i+1}}</h2>
+        <h2 [ngClass]="item.length > seats ? 'tooMany' : 'okay'">{{item.length}}/{{seats}}</h2>
+      </div>
+    
+      <div
+        cdkDropList
+        id="item-list-{{i}}"
+        [cdkDropListData]="item"
+        [cdkDropListConnectedTo]="getOtherLists(i)"
+        class="example-list"
+        (cdkDropListDropped)="drop($any($event))">
+        <!-- <div class="example-box" *ngFor="let person of item" cdkDrag>{{person.name}}</div> -->
+        <div [ngClass]="itemGenderClass(person)" class="example-box" *ngFor="let person of item" cdkDrag>
+          <div class="left-margin">
+            <div><strong>{{person.name}}</strong></div>
+            <div>{{fixedPersonName(person)}}</div>
+          </div>
+            <button type="button" mat-icon-button (click)="removeGuest(person.id)" matTooltip="Remove guest">
+              <mat-icon>close</mat-icon>
+            </button>
+        </div>
+      </div>
+    </div>
+    <!-- <div *ngFor="let item of list; let i = index" class="example-container">
+      <h2 class="margin-top">Bord {{i+1}}</h2>
+    
+      <div
+        cdkDropList
+        id="item-list-{{i}}"
+        [cdkDropListData]="item"
+        [cdkDropListConnectedTo]="getOtherLists(i)"
+        class="example-list"
+        (cdkDropListDropped)="drop($any($event))">
+        <div class="example-box" *ngFor="let person of item" cdkDrag>{{person}}</div>
+      </div>
+    </div> -->
+  
+  </div>
+  
+  <!-- <div *ngIf="list" class="left-margin">
+
+    <div *ngFor="let item of list; let i = index" class="example-container">
+      <h2 class="margin-top">Bord {{i+1}}</h2>
     
       <div
         cdkDropList
@@ -39,7 +110,7 @@
       </div>
     </div>
   
-  </div>
+  </div> -->
 
   
   <!-- <div class="example-container">

@@ -17,20 +17,21 @@ export class AppComponent {
 
   guestList: Guest[] = [];
 
-  list: string[][] = [];
+  list: Guest[][] = [];
+  tableIds: string[] = [];
 
   constructor(private dialog: MatDialog) {
     let g1: Guest = {
       id: "1",
       name: "Filippa",
-      gender: Gender.Female,
-      fixedPersonId: ""
+      gender: "2",
+      fixedPersonId: []
     }
     let g2: Guest = {
       id: "2",
       name: "Andreas",
-      gender: Gender.Male,
-      fixedPersonId: ""
+      gender: "1",
+      fixedPersonId: []
     }
     this.guestList = [g1, g2];
   }
@@ -38,16 +39,31 @@ export class AppComponent {
   public generateLists() {
 
     this.list = [];
+    this.tableIds = [];
 
     for (let i = 0; i < this.tables; i++) {
-      var tmpList: string[] = [];
+      var tmpList: Guest[] = [];
 
-      for (let j = 0; j < this.seats; j++) {
-        tmpList.push('test')
-      }
+      // for (let j = 0; j < this.seats; j++) {
+      //   tmpList.push('test')
+      // }
 
       this.list.push(tmpList);
+      this.tableIds.push(`item-list-${i}`)
     }
+    // this.list = [];
+    // this.tableIds = [];
+
+    // for (let i = 0; i < this.tables; i++) {
+    //   var tmpList: string[] = [];
+
+    //   for (let j = 0; j < this.seats; j++) {
+    //     tmpList.push('test')
+    //   }
+
+    //   this.list.push(tmpList);
+    //   this.tableIds.push(`item-list-${i}`)
+    // }
 
   }
 
@@ -94,9 +110,48 @@ export class AppComponent {
         result.push(`item-list-${i}`)
       }
     }
+    result.push('guest-list');
     return result;
 
     // ['item-list-2']
+  }
+
+  // getTableLists() {}
+
+  itemGenderClass(person: Guest) {
+    if (person.gender == "1") {
+      return 'male-2'
+    }
+    else if (person.gender == "2") {
+      return 'female-2'
+    }
+    else {
+      return 'other-gender'
+    }
+  }
+
+  removeGuest(personId: string) {
+    this.guestList = this.guestList.filter(guest => guest.id != personId)
+  }
+
+  fixedPersonName(person: Guest) {
+
+    var resultString = '';
+    var count = 0;
+
+    person.fixedPersonId.forEach(id => {
+      var fixedPerson = this.guestList.find(g => g.id == id);
+      if (count == 0)
+        resultString += fixedPerson.name + ', ';
+      else if (count > 0)
+        resultString += fixedPerson.name;
+      count++;
+    });
+
+    // var fixedPerson = this.guestList.find(g => g.id == person.fixedPersonId);
+    if (resultString) 
+      return `(${resultString})`;
+    else return '';
   }
 
 }
@@ -104,8 +159,8 @@ export class AppComponent {
 export interface Guest {
   id: string,
   name: string,
-  gender: Gender,
-  fixedPersonId: string
+  gender: string,
+  fixedPersonId: string[]
 }
 
 export enum Gender {

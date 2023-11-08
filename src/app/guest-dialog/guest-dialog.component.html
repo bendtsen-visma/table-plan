@@ -1,4 +1,4 @@
-<form [formGroup]="guestForm">
+<form [formGroup]="guestForm" [ngClass]="genderClass()">
     <h1 mat-dialog-title>{{titel}}</h1>
     
     <mat-dialog-content>
@@ -7,32 +7,9 @@
             <mat-label>Navn</mat-label>
             <input type="text" placeholder="Indtast navn.." formControlName="name" maxlength="2000" matInput>
         </mat-form-field>
-        
-        <!-- <mat-form-field class="form-field-top-padding" appearance="outline">
-            <mat-label>Navn</mat-label>
-            <input type="text" placeholder="Indtast navn.." formControlName="name" maxlength="2000" matInput>
-        </mat-form-field> -->
 
-        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" formControlName="gender">
-            <mat-radio-button value="1" class="option">Male</mat-radio-button>
-            <mat-radio-button value="2" class="option">Female</mat-radio-button>
-            <mat-radio-button value="3" class="option">Other</mat-radio-button>
-        </mat-radio-group>
-
-        <!-- <mat-form-field appearance="outline">
+        <mat-form-field class="input" appearance="outline">
             <mat-label>Sidemakker</mat-label>
-            <input type="text"
-                   placeholder="Find gæst"
-                   matInput
-                   formControlName="partner"
-                   [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="guestSelected($event.option.value)">
-              <mat-option *ngFor="let g of guestList" [value]="g.name">{{g.name}}</mat-option>
-            </mat-autocomplete>
-        </mat-form-field> -->
-
-        <mat-form-field appearance="outline">
-            <mat-label>Action codes</mat-label>
             <mat-chip-grid #chipGrid>
               <mat-chip-row *ngFor="let g of chosenGuest" (removed)="onRemove(g)">
                 {{g.name}}
@@ -49,16 +26,23 @@
                 {{g.name}}
               </mat-option>
             </mat-autocomplete>
-          </mat-form-field>
-  
+            <mat-hint *ngIf="guestForm.controls.partner.invalid" style="color: red;">Vælg max 2 sidemakkere</mat-hint>
+        </mat-form-field>
+
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group input" formControlName="gender">
+          <mat-radio-button value="1" class="option">Male</mat-radio-button>
+          <mat-radio-button value="2" class="option">Female</mat-radio-button>
+          <mat-radio-button value="3" class="option">Other</mat-radio-button>
+        </mat-radio-group>
+
 
         <!-- {{guestForm | json}} -->
 
-        <button mat-flat-button (click)="print()">Test print</button>
+        <!-- <button mat-flat-button (click)="print()">Test print</button> -->
 
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-flat-button color="primary" (click)="submit()">Tilføj</button>
+      <button [disabled]="!guestForm.valid" mat-flat-button color="primary" (click)="submit()">Tilføj</button>
     </mat-dialog-actions>
 
 </form>

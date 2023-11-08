@@ -1,11 +1,17 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Gender, Guest } from '../app.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { v4 as uuidv4 } from 'uuid';
+
+export interface IGuestForm extends FormGroup<{
+  name: FormControl<string | null | undefined>,
+  gender: FormControl<string | null | undefined>,
+  partner: FormControl<string | null | undefined>
+}> { };
 
 @Component({
   selector: 'app-guest-dialog',
@@ -16,6 +22,8 @@ export class GuestDialogComponent implements OnInit {
   @ViewChild(MatAutocomplete) auto!: MatAutocomplete;
 
   titel: string = "Tilføj Gæst";
+
+  // guestForm!: IGuestForm;
   
   genderOptions: string[] = ['Male', 'Female', 'Other'];
   guestList: Guest[] = [];
@@ -34,10 +42,16 @@ export class GuestDialogComponent implements OnInit {
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Guest[], public dialogRef: MatDialogRef<GuestDialogComponent>) {
+    // this.guestForm2 = new FormGroup({
+    //   name: new FormControl<string | null | undefined>('', Validators.required),
+    //   gender: new FormControl<string | null | undefined>(''),
+    //   partner: new FormControl<string | null | undefined>('')
+    //   // dateOfIssue: new FormControl<string | null | undefined>(this.data.dateOfIssue, Validators.required),
+    // });
     this.guestForm = new UntypedFormGroup({
-      name: new UntypedFormControl(''),
+      name: new UntypedFormControl('', Validators.required),
       gender: new UntypedFormControl(''),
-      partner: new UntypedFormControl(''),
+      partner: new UntypedFormControl('', Validators.maxLength(2)),
     });
   }
 
@@ -82,14 +96,24 @@ export class GuestDialogComponent implements OnInit {
   }
 
   submit() {
-    var resultGuest: Guest = {
-      id: uuidv4(),
-      name: this.guestForm.controls.name.value,
-      gender: this.guestForm.controls.gender.value,
-      fixedPersonId: this.guestForm.controls.partner.value
+    if (this.guestForm.valid) {
+      var resultGuest: Guest = {
+        id: uuidv4(),
+        name: this.guestForm.controls.name.value,
+        gender: this.guestForm.controls.gender.value,
+        fixedPersonId: this.guestForm.controls.partner.value
+      }
+      this.dialogRef.close(resultGuest);
     }
-    this.dialogRef.close(resultGuest);
+  }
 
+  genderClass() {
+    if (this.guestForm.controls.gender.value == 1) {
+      return 'male'
+    }
+    else if (this.guestForm.controls.gender.value == 2) {
+      return 'female'
+    }
   }
 
 }
