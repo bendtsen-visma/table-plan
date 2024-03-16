@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { GuestDialogComponent } from './guest-dialog/guest-dialog.component';
-
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'table-plan';
@@ -22,22 +25,21 @@ export class AppComponent {
 
   constructor(private dialog: MatDialog) {
     let g1: Guest = {
-      id: "1",
-      name: "Filippa",
-      gender: "2",
-      fixedPersonId: []
-    }
+      id: '1',
+      name: 'Filippa',
+      gender: '2',
+      fixedPersonId: [],
+    };
     let g2: Guest = {
-      id: "2",
-      name: "Andreas",
-      gender: "1",
-      fixedPersonId: []
-    }
+      id: '2',
+      name: 'Andreas',
+      gender: '1',
+      fixedPersonId: [],
+    };
     this.guestList = [g1, g2];
   }
 
   public generateLists() {
-
     this.list = [];
     this.tableIds = [];
 
@@ -49,7 +51,7 @@ export class AppComponent {
       // }
 
       this.list.push(tmpList);
-      this.tableIds.push(`item-list-${i}`)
+      this.tableIds.push(`item-list-${i}`);
     }
     // this.list = [];
     // this.tableIds = [];
@@ -64,41 +66,43 @@ export class AppComponent {
     //   this.list.push(tmpList);
     //   this.tableIds.push(`item-list-${i}`)
     // }
-
   }
 
   addPerson() {
     const dialogRef = this.dialog.open(GuestDialogComponent, {
       width: '600px',
-      data: this.guestList
-    })
+      data: this.guestList,
+    });
 
-    dialogRef.afterClosed().subscribe(data => {
+    dialogRef.afterClosed().subscribe((data: Guest) => {
       if (data) {
-        this.guestList.push(data)
+        this.guestList.push(data);
         //update list
       }
-    })
+    });
 
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
-        console.log(data);
-      }
-    })
-
+    // dialogRef.afterClosed().subscribe((data) => {
+    //   if (data) {
+    //     console.log(data);
+    //   }
+    // });
   }
 
   drop(event: CdkDragDrop<string[]>) {
     // moveItemInArray(this.evaluations, event.previousIndex, event.currentIndex);
-    
+
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     } else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.currentIndex
       );
     }
   }
@@ -107,7 +111,7 @@ export class AppComponent {
     var result: string[] = [];
     for (let i = 0; i < this.tables; i++) {
       if (index != i) {
-        result.push(`item-list-${i}`)
+        result.push(`item-list-${i}`);
       }
     }
     result.push('guest-list');
@@ -119,52 +123,45 @@ export class AppComponent {
   // getTableLists() {}
 
   itemGenderClass(person: Guest) {
-    if (person.gender == "1") {
-      return 'male-2'
-    }
-    else if (person.gender == "2") {
-      return 'female-2'
-    }
-    else {
-      return 'other-gender'
+    if (person.gender == '1') {
+      return 'male-2';
+    } else if (person.gender == '2') {
+      return 'female-2';
+    } else {
+      return 'other-gender';
     }
   }
 
   removeGuest(personId: string) {
-    this.guestList = this.guestList.filter(guest => guest.id != personId)
+    this.guestList = this.guestList.filter((guest) => guest.id != personId);
   }
 
   fixedPersonName(person: Guest) {
+    let resultString = '';
+    let count = 0;
+    if (person.fixedPersonId) {
+      person.fixedPersonId.forEach((id) => {
+        var fixedPerson = this.guestList.find((g) => g.id == id);
+        if (count == 0) resultString += fixedPerson.name + ', ';
+        else if (count > 0) resultString += fixedPerson.name;
+        count++;
+      });
+    }
 
-    var resultString = '';
-    var count = 0;
-
-    person.fixedPersonId.forEach(id => {
-      var fixedPerson = this.guestList.find(g => g.id == id);
-      if (count == 0)
-        resultString += fixedPerson.name + ', ';
-      else if (count > 0)
-        resultString += fixedPerson.name;
-      count++;
-    });
-
-    // var fixedPerson = this.guestList.find(g => g.id == person.fixedPersonId);
-    if (resultString) 
-      return `(${resultString})`;
+    if (resultString) return `(${resultString})`;
     else return '';
   }
-
 }
 
 export interface Guest {
-  id: string,
-  name: string,
-  gender: string,
-  fixedPersonId: string[]
+  id: string;
+  name: string;
+  gender: string;
+  fixedPersonId: string[];
 }
 
 export enum Gender {
   Male = 'Male',
   Female = 'Female',
-  Other = 'Other'
+  Other = 'Other',
 }

@@ -39,10 +39,12 @@
         <!-- {{guestForm | json}} -->
 
         <!-- <button mat-flat-button (click)="print()">Test print</button> -->
+        <br/>
 
+        <button [disabled]="!guestForm.valid" mat-flat-button class="submit-btn" (click)="submit()">Tilføj</button>
     </mat-dialog-content>
-    <mat-dialog-actions>
-      <button [disabled]="!guestForm.valid" mat-flat-button color="primary" (click)="submit()">Tilføj</button>
-    </mat-dialog-actions>
+    <!-- <mat-dialog-actions> -->
+      <!-- <button [disabled]="!guestForm.valid" mat-flat-button color="primary" (click)="submit()">Tilføj</button> -->
+    <!-- </mat-dialog-actions> -->
 
 </form>

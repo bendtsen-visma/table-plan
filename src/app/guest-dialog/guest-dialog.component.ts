@@ -78,7 +78,7 @@ export class GuestDialogComponent implements OnInit {
 
   onAddGuest(event: MatChipInputEvent) {
     if (event.value) {
-      var guest = this.guestList.find(g => g.id.includes(event.value));
+      var guest = this.guestList.find(g => g.name.includes(event.value)); //
       if (guest) {
         this.chipSelected(guest);
       }
@@ -88,7 +88,7 @@ export class GuestDialogComponent implements OnInit {
   chipSelected(value: Guest): void {
     if (value) {
       this.chosenGuest!.push(value);
-      this.guestForm.controls.partner.setValue(this.chosenGuest!.map(g => g.id!));
+      this.guestForm.controls.partner.setValue(this.chosenGuest!.map(g => g.name!));
 
     }
     // this.deficiencyForm.controls.actionCodeFilter.setValue('');
@@ -101,8 +101,9 @@ export class GuestDialogComponent implements OnInit {
         id: uuidv4(),
         name: this.guestForm.controls.name.value,
         gender: this.guestForm.controls.gender.value,
-        fixedPersonId: this.guestForm.controls.partner.value
+        fixedPersonId: this.guestForm.controls.partner.value.length > 0 ? this.guestForm.controls.partner.value.join(', ') : ''
       }
+      console.log("submit guest: ", resultGuest)
       this.dialogRef.close(resultGuest);
     }
   }

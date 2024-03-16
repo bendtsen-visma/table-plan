@@ -1,3 +1,7 @@
+<div class="logo">
+  <img src="../assets/tableplanner.png" width="250px"/>
+</div>
+
 <mat-card class="card">
   
   <div class="row-2">
@@ -37,7 +41,8 @@
       <div [ngClass]="itemGenderClass(person)" class="example-box" *ngFor="let person of guestList" cdkDrag>
         <div class="left-margin">
           <div><strong>{{person.name}}</strong></div>
-          <div>{{fixedPersonName(person)}}</div>
+          <div>{{person.fixedPersonId}}</div>
+          <!-- <div>{{fixedPersonName(person)}}</div> -->
         </div>
           <button type="button" mat-icon-button (click)="removeGuest(person.id)" matTooltip="Remove guest">
             <mat-icon>close</mat-icon>
@@ -70,7 +75,8 @@
         <div [ngClass]="itemGenderClass(person)" class="example-box" *ngFor="let person of item" cdkDrag>
           <div class="left-margin">
             <div><strong>{{person.name}}</strong></div>
-            <div>{{fixedPersonName(person)}}</div>
+            <div>{{person.fixedPersonId}}</div>
+            <!-- <div>{{fixedPersonName(person)}}</div> -->
           </div>
             <button type="button" mat-icon-button (click)="removeGuest(person.id)" matTooltip="Remove guest">
               <mat-icon>close</mat-icon>

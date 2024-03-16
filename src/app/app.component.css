@@ -5,6 +5,18 @@
     display: inline-block;
     vertical-align: top;
   }
+
+  body {
+    background-color: lightgray !important;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
   
   .example-list {
     border: solid 1px #ccc;
@@ -99,7 +111,7 @@
     box-sizing: border-box;
     cursor: move;
     font-size: 14px;
-    background: #fcd4dd;
+    background: #FFB6EC;
     height: 60px;
   }
 
@@ -114,7 +126,7 @@
     box-sizing: border-box;
     cursor: move;
     font-size: 14px;
-    background: #b7ddee;
+    background: #B7A3FF;
     height: 60px;
   }
   

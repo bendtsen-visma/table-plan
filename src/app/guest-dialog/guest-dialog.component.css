@@ -14,8 +14,13 @@
   margin-top: 0.5rem;
 }
 
+.submit-btn {
+  color: #3F51B5;
+  margin-top: 2rem;
+}
+
 .male {
-  background: #b7ddee;
+  background: #B7A3FF;
 }
 
 .male-2 {
@@ -29,11 +34,11 @@
   box-sizing: border-box;
   cursor: move;
   font-size: 14px;
-  background: #b7ddee;
+  background: #B7A3FF;
 }
 
 .female {
-  background: #fcd4dd;
+  background: #FFB6EC;
 }
 
 .female-2 {
@@ -47,5 +52,5 @@
   box-sizing: border-box;
   cursor: move;
   font-size: 14px;
-  background: #fcd4dd;
+  background: #FFB6EC;
 }
